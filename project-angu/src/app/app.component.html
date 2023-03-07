@@ -1,81 +1,105 @@
-<div class="grid p-5">
-  <div class="col-5 text-6xl">Item Product</div>
-  <div class="col-5"></div>
-  <div class="col-2">
-  </div>
-</div>
-<div class="grid">
-  <div class="col-1"></div>
-  <div class="col-10">
-    <div class="card">
-      <form [formGroup]="this.createForm" >
-        <button pButton (click)="submit()" type="button" label="Create"></button>
-        <button
-          pButton
-          type="button"
-          label="Delete"
-          class="p-button-danger"
-        ></button>
+<div class="card">
+  <div class="flex flex-column card-container p-5 border-round surface-500">
+    <div
+      class="flex align-items-center justify-content-center font-bold text-6xl text-white"
+    >
+      Item Product
+    </div>
+    <form [formGroup]="this.createForm">
+      <div class="flex align-items-center justify-content-end">
+        <span class="p-buttonset">
+          <button
+            pButton
+            type="button"
+            label=" Create"
+            icon="pi pi-plus"
+            (click)="submit()"
+          ></button>
+          <button
+            pButton
+            type="button"
+            label="Delete"
+            icon="pi pi-trash"
+            class="p-button-danger"
+          ></button>
+        </span>
+      </div>
       <div class="formgrid grid">
-        <div class="field col-12 md:col-6">
-          <label for="firstname6">Catalog</label>
+        <div class="field col-12 md:col-6 text-white pt-2">
+          <label for="txtCategory ">Catalog</label>
           <input
             pInputText
             id="txtCategory"
             type="text"
             formControlName="txtCategory"
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            class="text-base text-color surface-overlay p-2 border-9 border-solid border-round appearance-none outline-none focus:border-primary w-full"
           />
         </div>
-        <div class="field col-12 md:col-6">
-          <label for="lastname6">Summary</label>
+        <div class="field col-12 md:col-6 text-white pt-2">
+          <label for="txtSummary ">Summary</label>
           <input
+            pInputText
             id="txtSummary"
             type="text"
             formControlName="txtSummary"
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            class="text-base text-color surface-overlay p-2 border-9 border-solid border-round appearance-none outline-none focus:border-primary w-full"
           />
         </div>
-        <div class="field col-12 md:col-6">
-          <label for="firstname6">Price</label>
+        <div class="field col-12 text-white pt-2">
+          <label for="txtPrice ">Price</label>
           <input
+            pInputText
             id="txtPrice"
-            type="text"
+            type="number"
             formControlName="txtPrice"
-            
+            class="text-base text-color surface-overlay p-2 border-9 border-solid border-round appearance-none outline-none focus:border-primary w-full"
           />
         </div>
-        <div class="field col-12">
-          <label for="address">Description</label>
+        <div class="field col-12 text-white pt-2">
+          <label for="txtDescription ">Description</label>
           <textarea
+            pInputText
             id="txtDescription"
             type="text"
             formControlName="txtDescription"
             rows="4"
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            class="text-base text-color surface-overlay p-2 border-9 border-solid border-round appearance-none outline-none focus:border-primary w-full"
           ></textarea>
         </div>
       </div>
     </form>
-    </div>
   </div>
-  <div class="col-1"></div>
 </div>
-<p-table [tableStyle]="{'min-width': '50rem'}">
-    <ng-template pTemplate="header">
+<div class="card pt-2">
+  <div class="flex flex-column card-container p-5 border-round surface-500">
+    <p-table
+      [lazy]="true"
+      (onLazyLoad)="loadCatalog($event)"
+      [loading]="this.loading"
+      [totalRecords]="this.catalogs.totalRecord" 
+      [value]="this.catalogs.catalogs"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [paginator]="true"
+      [rows]="rows"
+      [(first)]="first"
+      [rowsPerPageOptions]="[5, 10, 15]"
+    >
+      <ng-template pTemplate="header">
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Price</th>
+          <th>No.</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Price</th>
         </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-product>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+      </ng-template>
+      <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+        <tr [ngClass]="priceColor(item.price, 'text')">
+          <td>{{ rowIndex + 1 }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.category }}</td>
+          <td [ngClass]="priceColor(item.price, 'txt')">{{ item.price }}</td>
         </tr>
-    </ng-template>
-</p-table>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

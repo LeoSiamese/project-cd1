@@ -7,3 +7,8 @@ export interface ICatalogModel{
     imgeFile: string;
     price: number;
 }
+
+export interface ICatalogsModel{
+    totalRecord: number;
+    catalogs: ICatalogModel[]
+}
